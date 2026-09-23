@@ -172,7 +172,11 @@ public class KoLmafiaCLI {
 
         if (line != null) {
           KoLmafiaCLI.this.isGUI = false;
-          KoLmafiaCLI.this.executeLine(line);
+          if (KoLmafiaCLI.DEFAULT_SHELL == KoLmafiaCLI.this) {
+            CommandQueue.executeCommandAndWait(line);
+          } else {
+            KoLmafiaCLI.this.executeLine(line);
+          }
           KoLmafiaCLI.this.isGUI = true;
         }
 

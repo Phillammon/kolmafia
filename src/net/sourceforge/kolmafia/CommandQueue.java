@@ -11,6 +11,7 @@ public class CommandQueue {
 
   private static final BlockingQueue<QueuedCommand> commandQueue = new LinkedBlockingQueue<>();
   private static final CommandQueueHandler handler = new CommandQueueHandler();
+  private static final PauseObject drained = new PauseObject();
 
   static {
     CommandQueue.handler.start();
@@ -82,6 +83,14 @@ public class CommandQueue {
     CommandQueue.commandQueue.add(command);
   }
 
+  public static void executeCommandAndWait(final String command) {
+    CommandQueue.executeCommand(command);
+
+    while (CommandQueue.hasQueuedCommands() && !KoLmafia.refusesContinue()) {
+      CommandQueue.drained.pause(100);
+    }
+  }
+
   private static final class CommandQueueHandler extends Thread {
     private QueuedCommand command = null;
     private final PauseObject pauser = new PauseObject();
@@ -111,6 +120,7 @@ public class CommandQueue {
           StaticEntity.printStackTrace(e);
         } finally {
           RequestThread.closeRequestSequence(requestId);
+          CommandQueue.drained.unpause();
         }
       }
     }
