@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AscensionClass;
 import net.sourceforge.kolmafia.AscensionPath.Path;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -51,7 +52,6 @@ import net.sourceforge.kolmafia.session.EquipmentManager;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager;
 import net.sourceforge.kolmafia.session.RabbitHoleManager.Hat;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.DisabledItemsComboBox;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
@@ -1067,7 +1067,7 @@ public class DailyDeedsPanel extends Box implements Listener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      CommandDisplayFrame.executeCommand(e.getActionCommand());
+      CommandQueue.executeCommand(e.getActionCommand());
       // Try to avoid having a random button, possibly with a high associated
       // cost, set as the default button when this one is disabled.
       KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();

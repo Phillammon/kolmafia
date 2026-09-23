@@ -20,6 +20,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import net.java.dev.spellcast.utilities.ActionPanel;
 import net.java.dev.spellcast.utilities.LockableListModel;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
 import net.sourceforge.kolmafia.KoLmafia;
@@ -34,7 +35,6 @@ import net.sourceforge.kolmafia.session.LouvreManager;
 import net.sourceforge.kolmafia.session.OceanManager.Destination;
 import net.sourceforge.kolmafia.session.OceanManager.Point;
 import net.sourceforge.kolmafia.session.VioletFogManager;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.widget.EditableAutoFilterComboBox;
 import net.sourceforge.kolmafia.swingui.widget.GenericScrollPane;
 import net.sourceforge.kolmafia.textui.command.GongCommand;
@@ -1285,7 +1285,7 @@ public class ChoiceOptionsPanel extends JTabbedPane implements Listener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-      CommandDisplayFrame.executeCommand(e.getActionCommand());
+      CommandQueue.executeCommand(e.getActionCommand());
     }
   }
 }

@@ -66,7 +66,7 @@ public class KoLmafiaGUI {
 
       String password = KoLmafia.getSaveState(autoLogin);
       if (password != null && !password.isEmpty()) {
-        RequestThread.postRequest(new LoginRequest(autoLogin, password));
+        LoginRequest.queue(autoLogin, password);
       }
     }
   }

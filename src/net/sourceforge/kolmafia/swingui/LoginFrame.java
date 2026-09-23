@@ -20,7 +20,6 @@ import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.java.dev.spellcast.utilities.SortedListModel;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.RequestThread;
 import net.sourceforge.kolmafia.StaticEntity;
 import net.sourceforge.kolmafia.preferences.Preferences;
 import net.sourceforge.kolmafia.request.LoginRequest;
@@ -303,7 +302,7 @@ public class LoginFrame extends GenericFrame {
 
       LoginFrame.this.honorProxySettings();
 
-      RequestThread.postRequest(new LoginRequest(username, password));
+      LoginRequest.queue(username, password);
     }
 
     private class GetBreakfastListener extends ThreadedListener {
