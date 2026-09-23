@@ -2,9 +2,9 @@ package net.sourceforge.kolmafia.swingui.menu;
 
 import java.io.File;
 import java.net.URI;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafia;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.utilities.InputFieldUtilities;
 
@@ -81,12 +81,12 @@ public class LoadScriptMenuItem extends ThreadedMenuItem {
       KoLmafia.forceContinue();
 
       if (this.hasShiftModifier()) {
-        CommandDisplayFrame.executeCommand("edit " + this.executePath);
+        CommandQueue.executeCommand("edit " + this.executePath);
       } else if (updateMRU) {
-        CommandDisplayFrame.executeCommand("call " + this.executePath);
+        CommandQueue.executeCommand("call " + this.executePath);
         KoLConstants.scriptMRUList.addItem(this.executePath);
       } else {
-        CommandDisplayFrame.executeCommand(this.executePath);
+        CommandQueue.executeCommand(this.executePath);
       }
     }
   }

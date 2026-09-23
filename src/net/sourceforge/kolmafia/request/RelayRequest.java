@@ -26,6 +26,7 @@ import net.java.dev.spellcast.utilities.DataUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
 import net.sourceforge.kolmafia.AreaCombatData;
 import net.sourceforge.kolmafia.CoinmasterData;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLAdventure;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -83,7 +84,6 @@ import net.sourceforge.kolmafia.session.TavernManager;
 import net.sourceforge.kolmafia.session.TurnCounter;
 import net.sourceforge.kolmafia.session.VoteMonsterManager;
 import net.sourceforge.kolmafia.swingui.AdventureFrame;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.textui.AshRuntime;
 import net.sourceforge.kolmafia.textui.RuntimeLibrary;
 import net.sourceforge.kolmafia.textui.javascript.JSONValueConverter;
@@ -3515,7 +3515,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public boolean pollForCompletion(String type) {
-    if (!CommandDisplayFrame.hasQueuedCommands()) {
+    if (!CommandQueue.hasQueuedCommands()) {
       return false;
     }
 
@@ -3707,7 +3707,7 @@ public class RelayRequest extends PasswordHashRequest {
 
     try {
       GenericRequest.suppressUpdate(suppressUpdate);
-      CommandDisplayFrame.executeCommand(GenericRequest.decodeField(command));
+      CommandQueue.executeCommand(GenericRequest.decodeField(command));
 
       if (waitForCompletion) {
         this.waitForCommandCompletion();
@@ -3718,7 +3718,7 @@ public class RelayRequest extends PasswordHashRequest {
   }
 
   public void waitForCommandCompletion() {
-    while (CommandDisplayFrame.hasQueuedCommands()) {
+    while (CommandQueue.hasQueuedCommands()) {
       this.pauser.pause(50);
     }
   }

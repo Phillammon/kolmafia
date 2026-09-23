@@ -12,9 +12,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.StaticEntity;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.listener.DefaultComponentFocusTraversalPolicy;
 import net.sourceforge.kolmafia.swingui.listener.HyperlinkAdapter;
 import net.sourceforge.kolmafia.swingui.listener.StickyListener;
@@ -166,7 +166,7 @@ public class CommandDisplayPanel extends JPanel implements FocusListener {
       }
 
       CommandDisplayPanel.this.commandIndex = CommandDisplayPanel.this.commandHistory.size();
-      CommandDisplayFrame.executeCommand(command);
+      CommandQueue.executeCommand(command);
     }
   }
 }

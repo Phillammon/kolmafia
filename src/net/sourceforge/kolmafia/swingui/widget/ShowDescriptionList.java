@@ -14,6 +14,7 @@ import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -39,7 +40,6 @@ import net.sourceforge.kolmafia.request.UseItemRequest;
 import net.sourceforge.kolmafia.request.UseSkillRequest;
 import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.shop.ShopRow;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.MallSearchFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.listener.PopupListener;
@@ -437,7 +437,7 @@ public class ShowDescriptionList<E> extends JList<E> {
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
-          CommandDisplayFrame.executeCommand(action);
+          CommandQueue.executeCommand(action);
         }
       }
 

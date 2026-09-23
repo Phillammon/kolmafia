@@ -30,6 +30,7 @@ import javax.swing.table.TableColumn;
 import net.java.dev.spellcast.utilities.LockableListModel;
 import net.java.dev.spellcast.utilities.LockableListModel.ListElementFilter;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.CreateFrameRunnable;
 import net.sourceforge.kolmafia.KoLConstants;
 import net.sourceforge.kolmafia.KoLmafiaCLI;
@@ -57,7 +58,6 @@ import net.sourceforge.kolmafia.request.concoction.CreateItemRequest;
 import net.sourceforge.kolmafia.scripts.git.GitManager;
 import net.sourceforge.kolmafia.scripts.svn.SVNManager;
 import net.sourceforge.kolmafia.session.StoreManager.SoldItem;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.ProfileFrame;
 import net.sourceforge.kolmafia.swingui.listener.PopupListener;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
@@ -718,7 +718,7 @@ public class ShowDescriptionTable<E> extends JXTable {
 
         action = MoodManager.getDefaultAction("lose_effect", name);
         if (!action.equals("")) {
-          CommandDisplayFrame.executeCommand(action);
+          CommandQueue.executeCommand(action);
         }
       }
 

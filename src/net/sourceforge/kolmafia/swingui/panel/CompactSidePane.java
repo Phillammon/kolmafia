@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import net.java.dev.spellcast.utilities.JComponentUtilities;
 import net.sourceforge.kolmafia.AdventureResult;
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.EdServantData;
 import net.sourceforge.kolmafia.FamiliarData;
 import net.sourceforge.kolmafia.KoLCharacter;
@@ -56,7 +57,6 @@ import net.sourceforge.kolmafia.request.CharPaneRequest.Companion;
 import net.sourceforge.kolmafia.request.SpelunkyRequest;
 import net.sourceforge.kolmafia.session.InventoryManager;
 import net.sourceforge.kolmafia.session.LimitMode;
-import net.sourceforge.kolmafia.swingui.CommandDisplayFrame;
 import net.sourceforge.kolmafia.swingui.button.InvocationButton;
 import net.sourceforge.kolmafia.swingui.listener.ThreadedListener;
 import net.sourceforge.kolmafia.swingui.menu.ThreadedMenuItem;
@@ -686,7 +686,7 @@ public class CompactSidePane extends JPanel implements Runnable {
     @Override
     protected void execute() {
       String arg = this.familiar == FamiliarData.NO_FAMILIAR ? " none" : this.familiar.getRace();
-      CommandDisplayFrame.executeCommand("familiar " + arg);
+      CommandQueue.executeCommand("familiar " + arg);
     }
   }
 
@@ -708,7 +708,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
     @Override
     protected void execute() {
-      CommandDisplayFrame.executeCommand(this.command);
+      CommandQueue.executeCommand(this.command);
     }
   }
 
@@ -730,7 +730,7 @@ public class CompactSidePane extends JPanel implements Runnable {
 
     @Override
     protected void execute() {
-      CommandDisplayFrame.executeCommand("servant " + this.servant.getType());
+      CommandQueue.executeCommand("servant " + this.servant.getType());
     }
   }
 
