@@ -7,7 +7,9 @@ import net.sourceforge.kolmafia.utilities.PauseObject;
 import net.sourceforge.kolmafia.utilities.StringUtilities;
 
 public class CommandQueue {
-  private static final BlockingQueue<String> commandQueue = new LinkedBlockingQueue<>();
+  private record QueuedCommand(String label, Runnable action) {}
+
+  private static final BlockingQueue<QueuedCommand> commandQueue = new LinkedBlockingQueue<>();
   private static final CommandQueueHandler handler = new CommandQueueHandler();
 
   static {
@@ -38,16 +40,27 @@ public class CommandQueue {
       return;
     }
 
+    CommandQueue.executeCommand(command, () -> KoLmafiaCLI.DEFAULT_SHELL.executeLine(command));
+  }
+
+  public static void executeCommand(final String label, final Runnable action) {
+    if (Thread.currentThread() == CommandQueue.handler) {
+      action.run();
+      return;
+    }
+
+    QueuedCommand command = new QueuedCommand(label, action);
+
     if (CommandQueue.hasQueuedCommands() || KoLmafia.isAdventuring()) {
       RequestLogger.printLine();
 
       if (!KoLmafia.isAdventuring()) {
         RequestLogger.printHtml(
             " &gt; <b>CURRENT</b>"
-                + StringUtilities.getEntityEncode(": " + handler.command, false));
+                + StringUtilities.getEntityEncode(": " + handler.label(), false));
       }
 
-      Iterator<String> commandIterator = CommandQueue.commandQueue.iterator();
+      Iterator<QueuedCommand> commandIterator = CommandQueue.commandQueue.iterator();
 
       int i;
       for (i = 1; commandIterator.hasNext(); ++i) {
@@ -55,11 +68,14 @@ public class CommandQueue {
             " &gt; <b>QUEUED "
                 + i
                 + "</b>"
-                + StringUtilities.getEntityEncode(": " + commandIterator.next(), false));
+                + StringUtilities.getEntityEncode(": " + commandIterator.next().label(), false));
       }
 
       RequestLogger.printHtml(
-          " &gt; <b>QUEUED " + i + "</b>: " + StringUtilities.getEntityEncode(command, false));
+          " &gt; <b>QUEUED "
+              + i
+              + "</b>: "
+              + StringUtilities.getEntityEncode(command.label(), false));
       RequestLogger.printLine();
     }
 
@@ -67,11 +83,15 @@ public class CommandQueue {
   }
 
   private static final class CommandQueueHandler extends Thread {
-    private String command = null;
+    private QueuedCommand command = null;
     private final PauseObject pauser = new PauseObject();
 
     public CommandQueueHandler() {
       super("CommandQueueHandler");
+    }
+
+    public String label() {
+      return this.command == null ? null : this.command.label();
     }
 
     @Override
@@ -103,12 +123,13 @@ public class CommandQueue {
         }
 
         RequestLogger.printLine();
-        RequestLogger.printLine(" &gt; " + StringUtilities.getEntityEncode(this.command, false));
+        RequestLogger.printLine(
+            " &gt; " + StringUtilities.getEntityEncode(this.command.label(), false));
         RequestLogger.printLine();
 
         try {
           KoLmafia.forceContinue();
-          KoLmafiaCLI.DEFAULT_SHELL.executeLine(this.command);
+          this.command.action().run();
         } catch (Exception e) {
           StaticEntity.printStackTrace(e);
         }

@@ -111,7 +111,7 @@ public class KoLmafiaCLI {
 
       System.out.println();
       Preferences.setBoolean("saveStateActive", true);
-      RequestThread.postRequest(new LoginRequest(username, password));
+      LoginRequest.queue(username, password);
     } catch (IOException e) {
       // This should not happen.  Therefore, print
       // a stack trace for debug purposes.

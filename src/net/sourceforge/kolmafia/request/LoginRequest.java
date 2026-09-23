@@ -1,5 +1,6 @@
 package net.sourceforge.kolmafia.request;
 
+import net.sourceforge.kolmafia.CommandQueue;
 import net.sourceforge.kolmafia.KoLConstants.MafiaState;
 import net.sourceforge.kolmafia.KoLmafia;
 import net.sourceforge.kolmafia.RequestThread;
@@ -42,6 +43,10 @@ public class LoginRequest extends GenericRequest {
     Preferences.setString(this.username, "displayName", this.username);
 
     this.password = password;
+  }
+
+  public static void queue(final String username, final String password) {
+    CommandQueue.executeCommand("login " + username, new LoginRequest(username, password));
   }
 
   @Override
